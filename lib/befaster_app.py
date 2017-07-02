@@ -2,6 +2,7 @@ import sys
 
 from runner.client_runner import start_client
 from runner.runner_action import RunnerActions
+from runner.credentials_config_file import read_from_config_file
 
 """
   ~~~~~~~~~~ The workflow ~~~~~~~~~~~~~
@@ -43,6 +44,6 @@ from runner.runner_action import RunnerActions
 
 """
 start_client(sys.argv[1:],
-             email="your_email_here",
+             email=read_from_config_file("tdl_username"),
              hostname="run.befaster.io",
              action_if_no_args=RunnerActions.test_connectivity)
