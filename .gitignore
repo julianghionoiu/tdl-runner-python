@@ -2,3 +2,4 @@
 challenges/*.txt
 record/localstore
 config/credentials.config
+*.pyc
