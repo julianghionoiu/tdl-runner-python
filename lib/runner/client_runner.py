@@ -28,14 +28,14 @@ def configure_logging():
 
 # ~~~~~~~~ Runner ~~~~~~~~~~
 
-def start_client(args, email, hostname, action_if_no_args):
+def start_client(args, username, hostname, action_if_no_args):
     configure_logging()
 
     value_from_args = extract_action_from(args)
     runner_action = value_from_args if value_from_args is not None else action_if_no_args
     print("Chosen action is: {}".format(runner_action.name))
 
-    client = Client(hostname, unique_id=email)
+    client = Client(hostname, unique_id=username)
 
     rules = ProcessingRules()
     rules.on("display_description").call(display_and_save_description).then("publish")

@@ -44,6 +44,6 @@ from runner.credentials_config_file import read_from_config_file
 
 """
 start_client(sys.argv[1:],
-             email=read_from_config_file("tdl_username"),
+             username=read_from_config_file("tdl_username"),
              hostname="run.befaster.io",
              action_if_no_args=RunnerActions.test_connectivity)
