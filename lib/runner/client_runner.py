@@ -5,6 +5,10 @@ from tdl.client import Client
 from tdl.processing_rules import ProcessingRules
 
 from runner.runner_action import RunnerActions
+from runner.credentials_config_file import read_from_config_file_with_default
+from runner.recording_system import RecordingSystem
+from runner.round_management import RoundManagement
+
 from solutions.sum import sum
 from solutions.hello import hello
 from solutions.fizz_buzz import fizz_buzz
@@ -31,6 +35,10 @@ def configure_logging():
 def start_client(args, username, hostname, action_if_no_args):
     configure_logging()
 
+    if not is_recording_system_ok():
+        print("Please run `record_screen_and_upload` before continuing.")
+        return
+
     value_from_args = extract_action_from(args)
     runner_action = value_from_args if value_from_args is not None else action_if_no_args
     print("Chosen action is: {}".format(runner_action.name))
@@ -38,13 +46,15 @@ def start_client(args, username, hostname, action_if_no_args):
     client = Client(hostname, unique_id=username)
 
     rules = ProcessingRules()
-    rules.on("display_description").call(display_and_save_description).then("publish")
+    rules.on("display_description").call(RoundManagement.display_and_save_description).then("publish")
     rules.on("sum").call(sum).then(runner_action.client_action)
     rules.on("hello").call(hello).then(runner_action.client_action)
     rules.on("fizz_buzz").call(fizz_buzz).then(runner_action.client_action)
     rules.on("checkout").call(checkout).then(runner_action.client_action)
 
     client.go_live_with(rules)
+
+    RecordingSystem.notify_event(RoundManagement.get_last_fetched_round(), runner_action.short_name)
 
 
 def extract_action_from(args):
@@ -56,6 +66,15 @@ def extract_action_from(args):
     return get_first([action for action in RunnerActions.all if action.name.lower() == first_arg.lower()])
 
 
+def is_recording_system_ok():
+    require_recording = is_true(read_from_config_file_with_default("tdl_require_rec", "true"))
+
+    if require_recording:
+        return RecordingSystem.is_running()
+    else:
+        return True
+
+
 def get_first(iterable, default=None):
     if iterable:
         for item in iterable:
@@ -63,15 +82,6 @@ def get_first(iterable, default=None):
     return default
 
 
-# ~~~~~~~~~ Provided implementations ~~~~~~~~~
+def is_true(s):
+    return s in ['true', '1']
 
-def display_and_save_description(label, description):
-    print('Starting round: '.format(label))
-    print(description)
-
-    output = open("challenges/{}.txt".format(label), "w")
-    output.write(description)
-    output.close()
-    print "Challenge description saved to file: {}.".format(output.name)
-
-    return 'OK'

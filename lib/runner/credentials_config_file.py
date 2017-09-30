@@ -1,6 +1,25 @@
 import os
 
 
+def read_from_config_file(key):
+    properties = read_properties_file()
+    return properties[key]
+
+
+def read_from_config_file_with_default(key, default_value):
+    properties = read_properties_file()
+    return properties.get(key, default_value)
+
+
+# ~~~~ Helpers
+
+
+def read_properties_file():
+    current_dir = os.path.dirname(__file__)
+    properties = load_properties(os.path.join(current_dir, "..", "..", "config", "credentials.config"))
+    return properties
+
+
 def load_properties(filepath, sep='=', comment_char='#'):
     """
     Read the file passed as parameter as a properties file.
@@ -15,9 +34,3 @@ def load_properties(filepath, sep='=', comment_char='#'):
                 value = sep.join(key_value[1:]).strip().strip('"')
                 props[key] = value
     return props
-
-
-def read_from_config_file(key):
-    current_dir = os.path.dirname(__file__)
-    properties = load_properties(os.path.join(current_dir, "..", "..", "config", "credentials.config"))
-    return properties[key]
