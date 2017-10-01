@@ -26,6 +26,9 @@ class RoundManagement:
 
     @staticmethod
     def get_last_fetched_round():
-        with open(LAST_FETCHED_ROUND_PATH, 'r') as round_file:
-            data=round_file.read().replace('\n', '')
-        return data
+        # noinspection PyUnusedLocal
+        try:
+            with open(LAST_FETCHED_ROUND_PATH, 'r') as round_file:
+                return round_file.read().replace('\n', '')
+        except Exception as e:
+            return "noRound"
