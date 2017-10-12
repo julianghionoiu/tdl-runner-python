@@ -9,5 +9,5 @@
 ## 2. How to start
 
 - Install dependencies `pip install -r requirements.txt`
-- Open `lib/befaster_app.py`
+- Open `lib/start.py`
 - Read the comments as documentation, they will guide through the rest of the setup

@@ -1,14 +1,18 @@
 import sys
 
 from runner.client_runner import start_client
-from runner.runner_action import RunnerActions
 from runner.credentials_config_file import read_from_config_file
+from runner.runner_action import RunnerActions
+from solutions.checkout import checkout
+from solutions.fizz_buzz import fizz_buzz
+from solutions.hello import hello
+from solutions.sum import sum
 
 """
   ~~~~~~~~~~ Running the system: ~~~~~~~~~~~~~
  
     From command line:
-       PYTHONPATH=lib python lib/befaster_app.py $ACTION
+       PYTHONPATH=lib python lib/start.py $ACTION
  
     From IDE:
        Set the value of the `action_if_no_args`
@@ -45,4 +49,10 @@ from runner.credentials_config_file import read_from_config_file
 start_client(sys.argv[1:],
              username=read_from_config_file("tdl_username"),
              hostname="run.befaster.io",
-             action_if_no_args=RunnerActions.test_connectivity)
+             action_if_no_args=RunnerActions.test_connectivity,
+             solutions={
+                 "sum": sum,
+                 "hello": hello,
+                 "fizz_buzz": fizz_buzz,
+                 "checkout": checkout,
+             })

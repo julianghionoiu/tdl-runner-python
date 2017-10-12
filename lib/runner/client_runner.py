@@ -9,11 +9,6 @@ from runner.credentials_config_file import read_from_config_file_with_default
 from runner.recording_system import RecordingSystem
 from runner.round_management import RoundManagement
 
-from solutions.sum import sum
-from solutions.hello import hello
-from solutions.fizz_buzz import fizz_buzz
-from solutions.checkout import checkout
-
 
 def configure_logging():
     ch = logging.StreamHandler(sys.stdout)
@@ -32,7 +27,7 @@ def configure_logging():
 
 # ~~~~~~~~ Runner ~~~~~~~~~~
 
-def start_client(args, username, hostname, action_if_no_args):
+def start_client(args, username, hostname, action_if_no_args, solutions):
     configure_logging()
 
     if not is_recording_system_ok():
@@ -47,10 +42,9 @@ def start_client(args, username, hostname, action_if_no_args):
 
     rules = ProcessingRules()
     rules.on("display_description").call(RoundManagement.display_and_save_description).then("publish")
-    rules.on("sum").call(sum).then(runner_action.client_action)
-    rules.on("hello").call(hello).then(runner_action.client_action)
-    rules.on("fizz_buzz").call(fizz_buzz).then(runner_action.client_action)
-    rules.on("checkout").call(checkout).then(runner_action.client_action)
+
+    for key, value in solutions.iteritems():
+        rules.on(key).call(value).then(runner_action.client_action)
 
     client.go_live_with(rules)
 
