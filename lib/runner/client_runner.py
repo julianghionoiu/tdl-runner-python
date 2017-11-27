@@ -9,6 +9,10 @@ from runner.credentials_config_file import read_from_config_file_with_default
 from runner.recording_system import RecordingSystem
 from runner.round_management import RoundManagement
 
+from lib.runner.challenge_server_client import ChallengeServerClient, ClientErrorException, ServerErrorException, \
+    OtherCommunicationException
+from lib.runner.credentials_config_file import read_from_config_file
+
 
 def configure_logging():
     ch = logging.StreamHandler(sys.stdout)
@@ -34,21 +38,72 @@ def start_client(args, username, hostname, action_if_no_args, solutions):
         print("Please run `record_screen_and_upload` before continuing.")
         return
 
+    if use_experimental_feature():
+        execute_server_action_from_user_input(args, username, hostname, solutions)
+    else:
+        parse_and_execute_action(args, username, hostname, action_if_no_args, solutions)
+
+
+def execute_server_action_from_user_input(args, username, hostname, solutions):
+    try:
+        journey_id = read_from_config_file("tdl_journey_id").replace("\=", "=")
+        use_colours = is_true(read_from_config_file_with_default("tdl_use_coloured_output", "true"))
+        challenge_server_client = ChallengeServerClient(hostname, journey_id, use_colours)
+        journey_progress = challenge_server_client.get_journey_progress()
+        print(journey_progress)
+        available_actions = challenge_server_client.get_available_actions()
+        print(available_actions)
+
+        if "No actions available." in available_actions:
+            return
+
+        user_input = get_user_input(args)
+        if user_input == "deploy":
+            runner_action = RunnerActions.deploy_to_production
+            execute_runner_action(hostname, runner_action, solutions, username)
+
+        action_feedback = challenge_server_client.send_action(user_input)
+        print(action_feedback)
+
+        response_string = challenge_server_client.get_round_description()
+        RoundManagement.save_description(
+            response_string,
+            lambda x: RecordingSystem.notify_event(x, RunnerActions.get_new_round_description.short_name)
+        )
+    except ClientErrorException as e:
+        print "The client sent something the server didn't expect."
+        print e.get_response_message()
+    except ServerErrorException as e:
+        print "Server experienced an error. Try again."
+        print e.get_response_message()
+    except OtherCommunicationException as e:
+        print "Client threw an unexpected error."
+        print e.get_response_message()
+
+
+def get_user_input(args):
+    return args[0] if len(args) > 0 and args[0] != "" else raw_input()
+
+
+def parse_and_execute_action(args, username, hostname, action_if_no_args, solutions):
     value_from_args = extract_action_from(args)
     runner_action = value_from_args if value_from_args is not None else action_if_no_args
+    execute_runner_action(hostname, runner_action, solutions, username)
+
+
+def execute_runner_action(hostname, runner_action, solutions, username):
     print("Chosen action is: {}".format(runner_action.name))
-
     client = Client(hostname, unique_id=username)
-
     rules = ProcessingRules()
     rules.on("display_description").call(RoundManagement.display_and_save_description).then("publish")
-
     for key, value in solutions.iteritems():
         rules.on(key).call(value).then(runner_action.client_action)
-
     client.go_live_with(rules)
-
     RecordingSystem.notify_event(RoundManagement.get_last_fetched_round(), runner_action.short_name)
+
+
+def use_experimental_feature():
+    return is_true(read_from_config_file_with_default("tdl_enable_experimental", "false"))
 
 
 def extract_action_from(args):
