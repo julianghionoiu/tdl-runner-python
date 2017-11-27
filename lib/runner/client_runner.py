@@ -4,14 +4,14 @@ import sys
 from tdl.client import Client
 from tdl.processing_rules import ProcessingRules
 
-from runner.runner_action import RunnerActions
-from runner.credentials_config_file import read_from_config_file_with_default
-from runner.recording_system import RecordingSystem
-from runner.round_management import RoundManagement
+from runner_action import RunnerActions
+from credentials_config_file import read_from_config_file_with_default
+from recording_system import RecordingSystem
+from round_management import RoundManagement
 
-from lib.runner.challenge_server_client import ChallengeServerClient, ClientErrorException, ServerErrorException, \
+from challenge_server_client import ChallengeServerClient, ClientErrorException, ServerErrorException, \
     OtherCommunicationException
-from lib.runner.credentials_config_file import read_from_config_file
+from credentials_config_file import read_from_config_file
 
 
 def configure_logging():

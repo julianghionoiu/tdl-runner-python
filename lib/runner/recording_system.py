@@ -1,6 +1,6 @@
 import unirest
 
-from lib.runner.credentials_config_file import read_from_config_file_with_default
+from credentials_config_file import read_from_config_file_with_default
 
 RECORDING_SYSTEM_ENDPOINT = "http://localhost:41375"
 
