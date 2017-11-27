@@ -1,5 +1,7 @@
 import unirest
 
+from lib.runner.credentials_config_file import read_from_config_file_with_default
+
 RECORDING_SYSTEM_ENDPOINT = "http://localhost:41375"
 
 
@@ -21,6 +23,11 @@ class RecordingSystem:
 
     @staticmethod
     def notify_event(last_fetched_round, short_name):
+        require_recording = is_true(read_from_config_file_with_default("tdl_require_rec", "true"))
+
+        if not require_recording:
+            return
+
         try:
             response = unirest.post(RECORDING_SYSTEM_ENDPOINT + "/notify",
                                     params=last_fetched_round + "/" + short_name)
@@ -34,3 +41,7 @@ class RecordingSystem:
 
         except Exception as e:
             print("Could not reach recording system: " + str(e))
+
+
+def is_true(s):
+    return s in ['true', '1']
