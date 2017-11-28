@@ -38,6 +38,8 @@ def start_client(args, username, hostname, action_if_no_args, solutions):
         print("Please run `record_screen_and_upload` before continuing.")
         return
 
+    print("Connecting to " + hostname)
+
     if use_experimental_feature():
         execute_server_action_from_user_input(args, username, hostname, solutions)
     else:
