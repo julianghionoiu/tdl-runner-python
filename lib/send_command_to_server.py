@@ -12,7 +12,7 @@ from solutions.sum import sum
   ~~~~~~~~~~ Running the system: ~~~~~~~~~~~~~
  
     From command line:
-       PYTHONPATH=lib python lib/start.py $ACTION
+       PYTHONPATH=lib python lib/send_command_to_server.py $ACTION
  
     From IDE:
        Set the value of the `action_if_no_args`
@@ -48,7 +48,7 @@ from solutions.sum import sum
 """
 start_client(sys.argv[1:],
              username=read_from_config_file("tdl_username"),
-             hostname="run.befaster.io",
+             hostname=read_from_config_file("tdl_hostname"),
              action_if_no_args=RunnerActions.test_connectivity,
              solutions={
                  "sum": sum,

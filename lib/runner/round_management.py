@@ -1,4 +1,8 @@
+import os
+
 CHALLENGES_FOLDER = "challenges"
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+ABSOLUTE_CHALLENGES_FOLDER = os.path.normpath(os.path.join(CURRENT_PATH, "../..", CHALLENGES_FOLDER))
 LAST_FETCHED_ROUND_PATH = "{}/XR.txt".format(CHALLENGES_FOLDER)
 
 
@@ -8,21 +12,34 @@ class RoundManagement:
 
     @staticmethod
     def display_and_save_description(label, description):
-        print('Starting round: {}'.format(label))
-        print(description)
 
         # Save description
-        output = open("{}/{}.txt".format(CHALLENGES_FOLDER, label), "w")
-        output.write(description)
-        output.close()
-        print "Challenge description saved to file: {}.".format(output.name)
+        description_filename = "{}.txt".format(label)
+        abs_challenge_file = os.path.join(ABSOLUTE_CHALLENGES_FOLDER, description_filename)
+        with open(abs_challenge_file, "w+") as output:
+            output.write(description)
+            # hide username from output
+            rel_challenge_file = os.path.join(CHALLENGES_FOLDER, description_filename)
+            print "Challenge description saved to file: {}.".format(rel_challenge_file)
 
         # Save round label
-        output = open(LAST_FETCHED_ROUND_PATH, "w")
-        output.write(label)
-        output.close()
+        with open(os.path.join(ABSOLUTE_CHALLENGES_FOLDER, "XR.txt"), "w+") as output:
+            output.write(label)
 
         return 'OK'
+
+    @staticmethod
+    def save_description(raw_description, callback):
+        if "\n" not in raw_description:
+            return
+
+        newline_index = raw_description.find("\n")
+        round_id = raw_description[:newline_index]
+        last_fetched_round = RoundManagement.get_last_fetched_round()
+        if not round_id == last_fetched_round:
+            callback(round_id)
+
+        RoundManagement.display_and_save_description(round_id, raw_description)
 
     @staticmethod
     def get_last_fetched_round():
