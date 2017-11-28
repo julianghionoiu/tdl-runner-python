@@ -1,6 +1,8 @@
 import os
 
 CHALLENGES_FOLDER = "challenges"
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+ABSOLUTE_CHALLENGES_FOLDER = os.path.normpath(os.path.join(CURRENT_PATH, "../..", CHALLENGES_FOLDER))
 LAST_FETCHED_ROUND_PATH = "{}/XR.txt".format(CHALLENGES_FOLDER)
 
 
@@ -12,15 +14,16 @@ class RoundManagement:
     def display_and_save_description(label, description):
 
         # Save description
-        current_path = os.path.dirname(os.path.abspath(__file__))
-        challenges_folder = os.path.normpath(os.path.join(current_path, "../..", CHALLENGES_FOLDER))
-        challenge_file = os.path.join(challenges_folder, "{}.txt".format(label))
-        with open(challenge_file, "w+") as output:
+        description_filename = "{}.txt".format(label)
+        abs_challenge_file = os.path.join(ABSOLUTE_CHALLENGES_FOLDER, description_filename)
+        with open(abs_challenge_file, "w+") as output:
             output.write(description)
-            print "Challenge description saved to file: {}.".format(output.name)
+            # hide username from output
+            rel_challenge_file = os.path.join(CHALLENGES_FOLDER, description_filename)
+            print "Challenge description saved to file: {}.".format(rel_challenge_file)
 
         # Save round label
-        with open(os.path.join(challenges_folder, "XR.txt"), "w+") as output:
+        with open(os.path.join(ABSOLUTE_CHALLENGES_FOLDER, "XR.txt"), "w+") as output:
             output.write(label)
 
         return 'OK'
