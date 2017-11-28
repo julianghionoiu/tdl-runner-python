@@ -43,12 +43,12 @@ def start_client(args, username, hostname, action_if_no_args, solutions):
     if use_experimental_feature():
         execute_server_action_from_user_input(args, username, hostname, solutions)
     else:
-        parse_and_execute_action(args, username, hostname, action_if_no_args, solutions)
+        execute_runner_action_from_args(args, username, hostname, action_if_no_args, solutions)
 
 
 def execute_server_action_from_user_input(args, username, hostname, solutions):
     try:
-        journey_id = read_from_config_file("tdl_journey_id").replace("\=", "=")
+        journey_id = read_from_config_file("tdl_journey_id")
         use_colours = is_true(read_from_config_file_with_default("tdl_use_coloured_output", "true"))
         challenge_server_client = ChallengeServerClient(hostname, journey_id, use_colours)
         journey_progress = challenge_server_client.get_journey_progress()
@@ -84,10 +84,10 @@ def execute_server_action_from_user_input(args, username, hostname, solutions):
 
 
 def get_user_input(args):
-    return args[0] if len(args) > 0 and args[0] != "" else raw_input()
+    return args[0] if len(args) > 0 else raw_input()
 
 
-def parse_and_execute_action(args, username, hostname, action_if_no_args, solutions):
+def execute_runner_action_from_args(args, username, hostname, action_if_no_args, solutions):
     value_from_args = extract_action_from(args)
     runner_action = value_from_args if value_from_args is not None else action_if_no_args
     execute_runner_action(hostname, runner_action, solutions, username)
