@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 
 from tdl.client import Client
 from tdl.processing_rules import ProcessingRules
@@ -37,6 +38,8 @@ def start_client(args, username, hostname, action_if_no_args, solutions):
     if not is_recording_system_ok():
         print("Please run `record_screen_and_upload` before continuing.")
         return
+
+    enable_colour_support_for_windows()
 
     print("Connecting to " + hostname)
 
@@ -136,3 +139,6 @@ def get_first(iterable, default=None):
 def is_true(s):
     return s in ['true', '1']
 
+
+def enable_colour_support_for_windows():
+    os.system('')
