@@ -23,6 +23,8 @@ class RecordingSystem:
 
     @staticmethod
     def notify_event(last_fetched_round, short_name):
+        print("Notify round \"" + last_fetched_round + "\", event \"" + short_name + "\"")
+
         require_recording = is_true(read_from_config_file_with_default("tdl_require_rec", "true"))
 
         if not require_recording:
