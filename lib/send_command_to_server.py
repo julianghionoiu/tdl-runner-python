@@ -41,6 +41,12 @@ from solutions.sum import sum
     |  7.  | If passed, go to step 3.                                    |
     +------+-------------------------------------------------------------+
  
+    You are encouraged to change this project as you please:
+         * You can use your preferred libraries.
+         * You can use your own test framework.
+         * You can change the file structure.
+         * Anything really, provided that this file stays runnable.
+ 
 """
 start_client(sys.argv[1:],
              username=read_from_config_file("tdl_username"),
