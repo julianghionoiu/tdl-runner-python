@@ -1,2 +1,2 @@
-tdl-client-python==0.19.2
+tdl-client-python==0.20.1
 unirest==1.1.7
