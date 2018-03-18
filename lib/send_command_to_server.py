@@ -1,12 +1,13 @@
 import sys
-
-from runner.client_runner import start_client
-from runner.credentials_config_file import read_from_config_file
-from runner.runner_action import RunnerActions
-from solutions.checkout import checkout
-from solutions.fizz_buzz import fizz_buzz
-from solutions.hello import hello
+from tdl.queue.queue_based_implementation_runner import QueueBasedImplementationRunnerBuilder
+from tdl.runner.challenge_session import ChallengeSession
 from solutions.sum import sum
+from solutions.hello import hello
+from solutions.fizz_buzz import fizz_buzz
+from solutions.checkout import checkout
+from runner.utils import Utils
+from runner.user_input_action import get_user_input
+
 
 """
   ~~~~~~~~~~ Running the system: ~~~~~~~~~~~~~
@@ -48,13 +49,17 @@ from solutions.sum import sum
          * Anything really, provided that this file stays runnable.
  
 """
-start_client(sys.argv[1:],
-             username=read_from_config_file("tdl_username"),
-             hostname=read_from_config_file("tdl_hostname"),
-             action_if_no_args=RunnerActions.test_connectivity,
-             solutions={
-                 "sum": sum,
-                 "hello": hello,
-                 "fizz_buzz": fizz_buzz,
-                 "checkout": checkout,
-             })
+
+runner = QueueBasedImplementationRunnerBuilder()\
+    .set_config(Utils.get_runner_config())\
+    .with_solution_for('sum', sum)\
+    .with_solution_for('hello', hello)\
+    .with_solution_for('fizz_buzz', fizz_buzz)\
+    .with_solution_for('checkout', checkout)\
+    .create()
+
+ChallengeSession\
+    .for_runner(runner)\
+    .with_config(Utils.get_config())\
+    .with_action_provider(lambda: get_user_input(sys.argv[1:]))\
+    .start()
