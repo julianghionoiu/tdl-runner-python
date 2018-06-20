@@ -1,3 +1,3 @@
 # noinspection PyShadowingBuiltins,PyUnusedLocal
-def sum(x, y):
+def compute(x, y):
     raise NotImplementedError()

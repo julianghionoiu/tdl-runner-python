@@ -1,10 +1,10 @@
 import sys
 from tdl.queue.queue_based_implementation_runner import QueueBasedImplementationRunnerBuilder
 from tdl.runner.challenge_session import ChallengeSession
-from solutions.sum import sum
-from solutions.hello import hello
-from solutions.fizz_buzz import fizz_buzz
-from solutions.checkout import checkout
+from solutions.SUM import sum_solution
+from solutions.HLO import hello_solution
+from solutions.FIZ import fizz_buzz_solution
+from solutions.CHK import checkout_solution
 from runner.utils import Utils
 from runner.user_input_action import get_user_input
 
@@ -52,10 +52,10 @@ from runner.user_input_action import get_user_input
 
 runner = QueueBasedImplementationRunnerBuilder()\
     .set_config(Utils.get_runner_config())\
-    .with_solution_for('sum', sum)\
-    .with_solution_for('hello', hello)\
-    .with_solution_for('fizz_buzz', fizz_buzz)\
-    .with_solution_for('checkout', checkout)\
+    .with_solution_for('sum', sum_solution.compute)\
+    .with_solution_for('hello', hello_solution.hello)\
+    .with_solution_for('fizz_buzz', fizz_buzz_solution.fizz_buzz)\
+    .with_solution_for('checkout', checkout_solution.checkout)\
     .create()
 
 ChallengeSession\

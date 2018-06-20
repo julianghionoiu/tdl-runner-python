@@ -14,8 +14,16 @@ PYTHON_CODE_COVERAGE_INFO="${SCRIPT_CURRENT_DIR}/coverage.tdl"
 # Install dependencies
 pip install -r ${SCRIPT_CURRENT_DIR}/requirements.txt
 
+# Prepare Python project
+function init_python_modules_in() {
+    _target_dir=$1
+    for dir in `find ${SCRIPT_CURRENT_DIR}/${_target_dir} -type d`; do touch ${dir}/__init__.py; done
+}
+init_python_modules_in lib
+init_python_modules_in test
+
 # Compute coverage
-( cd ${SCRIPT_CURRENT_DIR} && coverage run --source "lib/solutions" -m unittest discover -s test || true 1>&2 )
+( cd ${SCRIPT_CURRENT_DIR} && PYTHONPATH=lib coverage run --source "lib/solutions" -m unittest discover -s test || true 1>&2 )
 ( cd ${SCRIPT_CURRENT_DIR} && coverage xml || true 1>&2 )
 
 [ -e ${PYTHON_CODE_COVERAGE_INFO} ] && rm ${PYTHON_CODE_COVERAGE_INFO}
@@ -25,8 +33,7 @@ if [ -f "${COVERAGE_TEST_REPORT_XML_FILE}" ]; then
     COVERAGE_OUTPUT=$(xmllint --xpath '//package[@name="lib.solutions.'${CHALLENGE_ID}'"]/@line-rate' ${COVERAGE_TEST_REPORT_XML_FILE} || true)
     PERCENTAGE=$(( 0 ))
     if [[ ! -z "${COVERAGE_OUTPUT}" ]]; then
-        NUMBER_AS_STRING=$(echo ${COVERAGE_OUTPUT} | cut -d "\"" -f 2 | tr -d "." | awk '{print $1}')
-        PERCENTAGE=$(( 10#${NUMBER_AS_STRING} )) # Treat as base 10 number
+        PERCENTAGE=$(echo ${COVERAGE_OUTPUT} | cut -d "\"" -f 2 | awk '{print $1 * 100}' )
     fi
     echo ${PERCENTAGE} > ${PYTHON_CODE_COVERAGE_INFO}
     cat ${PYTHON_CODE_COVERAGE_INFO}
