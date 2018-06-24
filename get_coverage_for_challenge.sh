@@ -33,7 +33,7 @@ if [ -f "${COVERAGE_TEST_REPORT_XML_FILE}" ]; then
     COVERAGE_OUTPUT=$(xmllint --xpath '//package[@name="lib.solutions.'${CHALLENGE_ID}'"]/@line-rate' ${COVERAGE_TEST_REPORT_XML_FILE} || true)
     PERCENTAGE=$(( 0 ))
     if [[ ! -z "${COVERAGE_OUTPUT}" ]]; then
-        PERCENTAGE=$(echo ${COVERAGE_OUTPUT} | cut -d "\"" -f 2 | awk '{print $1 * 100}' )
+        PERCENTAGE=$(echo ${COVERAGE_OUTPUT} | cut -d "\"" -f 2 | awk '{printf "%.0f",$1 * 100}' )
     fi
     echo ${PERCENTAGE} > ${PYTHON_CODE_COVERAGE_INFO}
     cat ${PYTHON_CODE_COVERAGE_INFO}
