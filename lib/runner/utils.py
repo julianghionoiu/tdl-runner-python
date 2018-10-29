@@ -19,5 +19,6 @@ class Utils:
     @staticmethod
     def get_runner_config():
         return ImplementationRunnerConfig()\
-            .set_unique_id(read_from_config_file('tdl_username'))\
+            .set_request_queue_name(read_from_config_file('tdl_request_queue_name'))\
+            .set_response_queue_name(read_from_config_file('tdl_response_queue_name'))\
             .set_hostname(read_from_config_file('tdl_hostname'))
