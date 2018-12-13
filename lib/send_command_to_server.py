@@ -19,7 +19,7 @@ from runner.user_input_action import get_user_input
        PYTHONPATH=lib python lib/send_command_to_server.py
  
     To run your unit tests locally:
-       PYTHONPATH=lib python -m unittest discover -s test
+       PYTHONPATH=lib python -m pytest -q test/solution_tests/*.py test/solution_tests/**/*.py
  
   ~~~~~~~~~~ The workflow ~~~~~~~~~~~~~
  
