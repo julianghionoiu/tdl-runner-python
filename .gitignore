@@ -8,3 +8,6 @@ venv
 .coverage
 coverage.xml
 coverage.tdl
+.pytest_cache
+.cache
+__pycache__
