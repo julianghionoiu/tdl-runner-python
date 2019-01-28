@@ -23,7 +23,7 @@ init_python_modules_in lib
 init_python_modules_in test
 
 # Compute coverage
-( cd ${SCRIPT_CURRENT_DIR} && PYTHONPATH=lib coverage run --source "lib/solutions" -m pytest -s test 1>&2 )
+( cd ${SCRIPT_CURRENT_DIR} && PYTHONPATH=lib coverage run --source "lib/solutions" -m pytest -s test || true 1>&2 )
 ( cd ${SCRIPT_CURRENT_DIR} && coverage xml 1>&2 )
 
 [ -e ${PYTHON_CODE_COVERAGE_INFO} ] && rm ${PYTHON_CODE_COVERAGE_INFO}
