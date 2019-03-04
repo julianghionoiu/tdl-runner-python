@@ -1,6 +1,6 @@
 from tdl.runner.challenge_session_config import ChallengeSessionConfig
 from tdl.queue.implementation_runner_config import ImplementationRunnerConfig
-from credentials_config_file import read_from_config_file, read_from_config_file_with_default
+from .credentials_config_file import read_from_config_file, read_from_config_file_with_default
 
 import os
 

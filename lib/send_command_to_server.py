@@ -1,12 +1,12 @@
 import sys
 from tdl.queue.queue_based_implementation_runner import QueueBasedImplementationRunnerBuilder
 from tdl.runner.challenge_session import ChallengeSession
-from solutions.SUM import sum_solution
-from solutions.HLO import hello_solution
-from solutions.FIZ import fizz_buzz_solution
-from solutions.CHK import checkout_solution
-from runner.utils import Utils
-from runner.user_input_action import get_user_input
+from .solutions.SUM import sum_solution
+from .solutions.HLO import hello_solution
+from .solutions.FIZ import fizz_buzz_solution
+from .solutions.CHK import checkout_solution
+from .runner.utils import Utils
+from .runner.user_input_action import get_user_input
 
 
 """
