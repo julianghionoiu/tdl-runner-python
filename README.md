@@ -3,8 +3,9 @@
 
 ## 1. Requirements
 
-- `Python 2.7`
-- `pip`
+- `Python 3.7` (note: support for `Python 2.x` has been dropped)
+- `pip` (ensure it supports `Python 3.7`)
+
 
 ## 2. How to start
 
