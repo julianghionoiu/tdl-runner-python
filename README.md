@@ -1,4 +1,4 @@
-[![Python Version](http://img.shields.io/badge/Python-3.7-blue.svg)](https://www.python.org/download/releases/3.7/)
+[![Python Version](http://img.shields.io/badge/Python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 
 # tdl-warmup-python
 
