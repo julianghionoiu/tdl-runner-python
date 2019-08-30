@@ -1,15 +1,57 @@
-.idea
-challenges/*.txt
-record/localstore
-record/bin
-jre
-config/credentials.config
-*.pyc
-.DS_Store
-venv
-.coverage
-coverage.xml
-coverage.tdl
-.pytest_cache
-.cache
+# ~~~~~~~~~ Global ~~~~~~~~~
+
+# Ignore all dot folders
+.*
+
+# Ignore all archives
+*.zip
+*.tar.gz
+*.tar
+*.rar
+
+# ~~~~~~~~~ Language specific ~~~~~~~~~
+
+# Optimised files
 __pycache__
+*.so
+*.py[cod]
+*$py.class
+
+# Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Virtualenv stuff
+env
+venv
+pyvenv
+
+# Unit testing
+coverage.xml
+
+# ~~~~~~~~~ IDE specific ~~~~~~~~~
+
+# Idea
+*.iml
+
+# ~~~~~~~~~ Accelerate ~~~~~~~~~
+**/challenges/*.txt
+record
+config/credentials.config
+coverage
+coverage.tdl
+jre
