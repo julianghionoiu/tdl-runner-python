@@ -40,7 +40,7 @@ from runner.user_input_action import get_user_input
     |  4.  | Locate the file corresponding to your current challenge in:           |
     |      |   ./lib/solutions                                                     |
     |  5.  | Replace the following placeholder exception with your solution:       |
-    |      |   "raise NotImplementedError()"                                       |
+    |      |   raise NotImplementedError()                                         |
     |  6.  | Deploy to production by typing "deploy".                              |
     |  7.  | Observe the output, check for failed requests.                        |
     |  8.  | If passed, go to step 1.                                              |
