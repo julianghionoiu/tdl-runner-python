@@ -39,6 +39,9 @@ MANIFEST
 env
 venv
 pyvenv
+ENV
+env.bak
+venv.bak
 
 # Unit testing
 coverage.xml
