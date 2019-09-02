@@ -1,7 +1,7 @@
 # ~~~~~~~~~ Global ~~~~~~~~~
 
 # Ignore all dot folders
-.*
+.*/
 
 # Ignore all temp files
 ~$*
@@ -27,8 +27,6 @@ develop-eggs/
 dist/
 downloads/
 eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
