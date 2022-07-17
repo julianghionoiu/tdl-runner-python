@@ -5,8 +5,8 @@
 
 ## 1. Requirements
 
-- `Python 3.7` (note: support for `Python 2.x` has been dropped)
-- `pip` (ensure it supports `Python 3.7`)
+- `Python 3.10`
+- `pip` (ensure it supports `Python 3.10`)
 
 
 ## 2. How to start
