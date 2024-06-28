@@ -5,8 +5,8 @@
 
 ## 1. Requirements
 
-- `Python 3.10`
-- `pip` (ensure it supports `Python 3.10`)
+- `Python 3.12`
+- `pip` (ensure it supports `Python 3.12`)
 
 
 ## 2. How to start
